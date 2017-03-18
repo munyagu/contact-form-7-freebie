@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hello World Project\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2017-03-10 16:08+0900\n"
-"PO-Revision-Date: 2017-03-10 16:10+0900\n"
+"POT-Creation-Date: 2017-03-18 09:57+0900\n"
+"PO-Revision-Date: 2017-03-18 09:58+0900\n"
 "Last-Translator: masayuki abe <YOUR-EMAIL@abe.com>\n"
 "Language-Team: abechiyo <YOUR-EMAIL@kddi-web.com>\n"
 "Language: ja_JP\n"
@@ -17,30 +17,38 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: contact-form-7-freebie.php:106
+#: contact-form-7-freebie.php:149
 msgid "The confirmation email address does not match."
 msgstr "メールアドレスが一致しません。"
 
-#: contact-form-7-freebie.php:136
+#: contact-form-7-freebie.php:192
 msgid "Freebie"
 msgstr "おまけ"
 
-#: contact-form-7-freebie.php:145
+#: contact-form-7-freebie.php:203
+msgid "Do not insert P tag when displaying form"
+msgstr "フォーム表示時にPタグを挿入しない"
+
+#: contact-form-7-freebie.php:206
 msgid "Email Address Field Name"
 msgstr "メールアドレスのフィールド名"
 
-#: contact-form-7-freebie.php:148
+#: contact-form-7-freebie.php:209
 msgid "Confirm Field Name"
 msgstr "確認用メールアドレスのフィールド名"
 
-#: contact-form-7-freebie.php:151
+#: contact-form-7-freebie.php:212
 msgid "Thanks Page URL"
 msgstr "サンキューページのURL"
 
-#: contact-form-7-freebie.php:153
+#: contact-form-7-freebie.php:216
+msgid "Make the comma of multiple values a newline in mail body"
+msgstr "複数値をメール本文でカンマ区切りではなく改行で区切る"
+
+#: contact-form-7-freebie.php:221
 msgid "Hide field error message"
 msgstr "フィールド毎のエラーメッセージを非表示にする"
 
-#: contact-form-7-freebie.php:288
+#: contact-form-7-freebie.php:297
 msgid "Please activate Contact Form 7 plugin in advance"
 msgstr "先にContact Form 7プラグインを有効化してください。"
