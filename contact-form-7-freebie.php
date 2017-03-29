@@ -11,22 +11,30 @@ Author URI: http://munyagu.com/
 License: GPL2
 */
 
-if ( ! defined( 'WPCF7_AUTOP' ) ) {
-	define( 'WPCF7_AUTOP', false );
+/* set WPCF7_AUTOP common setting */
+$options = ContactForm7Freebie::get_options();
+if ( $options !== null && is_array( $options ) ) {
+	$autop = array_values( $options )[0][ ContactForm7Freebie::$f_no_wpautop_field_name ];
+	if ( $autop === '1' ) {
+		if ( ! defined( 'WPCF7_AUTOP' ) ) {
+			define( 'WPCF7_AUTOP', false );
+		}
+	}
 }
+
 
 class ContactForm7Freebie {
 
 	private static $instance = null;
 
 	private $name = '';
-	private $textdomain = '';
+	private static $textdomain = 'contact-form-7-freebie';
 	private $version = '1.0.0';
 
-	private static $option_name = 'cf7f';
+	private static $option_name = 'cf7-freebie';
 	public $options = null;
 
-	private static $f_no_wpautop_field_name = "cf7f_field_no_wpautop";
+	public static $f_no_wpautop_field_name = "cf7f_field_no_wpautop";
 	private static $f_email_field_name = "cf7f_email";
 	private static $f_confirm_field_name = "cf7f_email_confirm";
 	private static $f_thanks_field_name = "cf7f_thanks_url";
@@ -44,33 +52,31 @@ class ContactForm7Freebie {
 	}
 
 	private function __construct() {
-		$plugin_meta      = get_file_data( __FILE__, array(
-			'name'       => 'Plugin Name',
-			'version'    => 'Version',
-			'textdomain' => 'Textdomain',
+		$plugin_meta   = get_file_data( __FILE__, array(
+			'name'    => 'Plugin Name',
+			'version' => 'Version',
 		) );
-		$this->name       = $plugin_meta['name'];
-		$this->textdomain = $plugin_meta['textdomain'];
-		$this->version    = $plugin_meta['version'];
+		$this->name    = $plugin_meta['name'];
+		$this->version = $plugin_meta['version'];
 
 		load_plugin_textdomain( 'contact-form-7-freebie', false, 'contact-form-7-freebie/languages' );
 
-		/* disnable Contact form 7 wpautop (Implement if filter is added to Contact form 7)*/
-		/*add_filter('wpcf7_contact_form', array($this, 'wpcf7_form_elements'), 10, 1);*/
+		/* control load order of plugin */
+		add_filter( 'pre_update_option_active_plugins', array( $this, 'pre_update_option_active_plugins' ), 99, 3 );
 
+		/* show script for redirect thanks page */
 		add_action( 'wpcf7_contact_form', array( $this, 'wpcf7_contact_form' ), 10, 1 );
 
 		/* activate and deactivate plugin */
-		register_activation_hook( __FILE__, array( $this, 'register_activation_hook' ) );
+		register_activation_hook( __FILE__, array( 'ContactForm7Freebie', 'register_activation_hook' ) );
+		register_uninstall_hook( __FILE__, array( 'ContactForm7Freebie', 'register_uninstall_hook' ) );
+
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
 		/* email validation */
 		add_filter( 'wpcf7_validate_email', array( $this, 'wpcf7_validate_email' ), 10, 2 );
 		add_filter( 'wpcf7_validate_email*', array( $this, 'wpcf7_validate_email' ), 10, 2 );
-
-		/* thanks redirect */
-		/*add_action( 'wpcf7_mail_sent', array( $this, 'wpcf7_mail_sent' ), 1, 1 );*/
 
 		/* add tab */
 		if ( is_admin() ) {
@@ -83,12 +89,82 @@ class ContactForm7Freebie {
 
 		/* Make the comma of multiple values a newline in mail  */
 		add_filter( 'wpcf7_mail_tag_replaced', array( $this, 'wpcf7_mail_tag_replaced' ), 10, 3 );
+
+		add_action( 'wp_head', array( $this, 'wp_head' ) );
+
+		add_filter( 'wpcf7_ajax_json_echo', array( $this, 'wpcf7_ajax_json_echo' ), 10, 2 );
 	}
 
 
-	public function wpcf7_contact_form( $contact_form ) {
-		if ( ! is_admin() ) {
+	/**
+	 * control load order of plugin(load first)
+	 * @return array
+	 */
+	public function pre_update_option_active_plugins( $plugins, $old_value, $option ) {
+		$this_plugin = str_replace( wp_normalize_path( WP_PLUGIN_DIR ) . '/', '', wp_normalize_path( __FILE__ ) );
+		foreach ( $plugins as $num => $path ) {
+			if ( $path == $this_plugin ) {
+				unset( $plugins[ $num ] );
+				array_unshift( $plugins, $this_plugin );
+				break;
+			}
+		}
 
+		return $plugins;
+	}
+
+	/**
+	 * thanks redirect for earlier Contact Form 7 version 4.7
+	 *
+	 * @param $items
+	 * @param $result
+	 *
+	 * @return mixed
+	 */
+	public function wpcf7_ajax_json_echo( $items, $result ) {
+		// for earlier Contact Form 7 version 4.7
+		if ( (int) WPCF7_VERSION >= 4.7 ) {
+			return $items;
+		}
+
+		file_put_contents( dirname( __FILE__ ) . '/log.txt', 'items1:' . print_r( $items, true ) . "\n\n", FILE_APPEND );
+		if ( isset( $items['onSentOk'] ) ) {
+			foreach ( $items['onSentOk'] as $sent ) {
+				if ( strpos( $sent, 'location=' ) !== false ) {
+					// already contain location
+					return $items;
+				}
+			}
+		}
+
+		$contact_form = WPCF7_ContactForm::get_current();
+		if ( ! $contact_form ) {
+			return $items;
+		}
+
+		$option = self::get_option( $contact_form->id() );
+		if ( isset( $option[ self::$f_thanks_field_name ] ) && $option[ self::$f_thanks_field_name ] != '' ) {
+			$items['onSentOk'][] = "location='{$option[self::$f_thanks_field_name]}'";
+		}
+		file_put_contents( dirname( __FILE__ ) . '/log.txt', 'items2:' . print_r( $items, true ) . "\n\n", FILE_APPEND );
+
+		return $items;
+	}
+
+	/**
+	 * thanks redirect for Contact Form 7 version 4.7 or later
+	 *
+	 * @param $contact_form
+	 */
+	public function wpcf7_contact_form( $contact_form ) {
+
+		// for Contact Form 7 version 4.7 or later
+		if ( (int) WPCF7_VERSION < 4.7 ) {
+			return;
+		}
+
+		// show redirect script for thanks page.
+		if ( ! is_admin() ) {
 			$option = self::get_option( $contact_form->id() );
 			if ( isset( $option[ self::$f_thanks_field_name ] ) && $option[ self::$f_thanks_field_name ] != '' ) {
 				$this->redirect_script = <<<EOT
@@ -100,6 +176,7 @@ document.addEventListener( 'wpcf7mailsent', function( event ) {
 EOT;
 				add_action( 'wp_footer', array( $this, 'wp_footer' ), 10 );
 			}
+
 		}
 	}
 
@@ -109,6 +186,11 @@ EOT;
 			echo $this->redirect_script;
 		}
 
+	}
+
+	public function wp_head() {
+		var_dump( $this );
+		echo "<style>.wpcf7-mail-sent-ok{display: none !important;}</style>";
 	}
 
 	/**
@@ -152,21 +234,6 @@ EOT;
 		return $result;
 	}
 
-	/**
-	 * redirect on mail sent
-	 *
-	 * @param $contact_form
-	 */
-	public function wpcf7_mail_sent( $contact_form ) {
-
-		$option = self::get_option( $contact_form->id() );
-		if ( isset( $option[ self::$f_thanks_field_name ] ) && $option[ self::$f_thanks_field_name ] != '' ) {
-			wp_safe_redirect( $option[ self::$f_thanks_field_name ] );
-			exit;
-		}
-
-	}
-
 	/** Make the comma of multiple values a newline in mail */
 	public function wpcf7_mail_tag_replaced( $replaced, $submitted, $html ) {
 
@@ -183,7 +250,7 @@ EOT;
 	public function wpcf7_enqueue_styles() {
 
 		if ( get_option( self::$f_field_error_field_name ) === '1' ) {
-			wp_enqueue_style( $this->textdomain, plugin_dir_url( __FILE__ ) . 'include/css/contact-form-7-freebie.css', array( 'contact-form-7' ), $this->version );
+			wp_enqueue_style( self::$textdomain, plugin_dir_url( __FILE__ ) . 'include/css/contact-form-7-freebie.css', array( 'contact-form-7' ), $this->version );
 		}
 	}
 
@@ -202,33 +269,35 @@ EOT;
 
 
 		?>
-        <!-- <p><label><?php echo __( 'Do not insert P tag when displaying form', 'contact-form-7-freebie' ) ?> : <input type="checkbox" name="<?php echo self::$f_no_wpautop_field_name ?>" size="60"
-                                                                                                  value="1"<?php echo $option[ self::$f_no_wpautop_field_name ] == '1' ? 'checked="checked"' : ''; ?>/></label></p> -->
+        <p><label><input type="checkbox" name="<?php echo self::$f_no_wpautop_field_name ?>" size="60"
+                         value="1"<?php echo $option[ self::$f_no_wpautop_field_name ] == '1' ? 'checked="checked"' : ''; ?>><?php echo __( 'Do not insert P tag when displaying form', 'contact-form-7-freebie' ) ?>
+            </label><br><small>※<?php echo __( 'If this function does not become effective, please invalidate Contact Form 7 Freebie plug-in and activate it.', 'contact-form-7-freebie' ) ?></small>
+        </p>
 
-        <p><label><?php echo __( 'Email Address Field Name', 'contact-form-7-freebie' ) ?><br/><input type="text"
-                                                                                                      name="<?php echo self::$f_email_field_name ?>"
-                                                                                                      size="60"
-                                                                                                      value="<?php echo $option[ self::$f_email_field_name ]; ?>"/></label>
+        <p><label><?php echo __( 'Email Address Field Name', 'contact-form-7-freebie' ) ?><br><input type="text"
+                                                                                                     name="<?php echo self::$f_email_field_name ?>"
+                                                                                                     size="60"
+                                                                                                     value="<?php echo $option[ self::$f_email_field_name ]; ?>"></label>
         </p>
-        <p><label><?php echo __( 'Confirm Field Name', 'contact-form-7-freebie' ) ?><br/><input type="text"
-                                                                                                name="<?php echo self::$f_confirm_field_name; ?>"
-                                                                                                size="60"
-                                                                                                value="<?php echo $option[ self::$f_confirm_field_name ]; ?>"/></label>
+        <p><label><?php echo __( 'Confirm Field Name', 'contact-form-7-freebie' ) ?><br><input type="text"
+                                                                                               name="<?php echo self::$f_confirm_field_name; ?>"
+                                                                                               size="60"
+                                                                                               value="<?php echo $option[ self::$f_confirm_field_name ]; ?>"></label>
         </p>
-        <p><label><?php echo __( 'Thanks Page URL', 'contact-form-7-freebie' ) ?><br/><input type="text"
-                                                                                             name="<?php echo self::$f_thanks_field_name; ?>"
-                                                                                             size="60"
-                                                                                             value="<?php echo $option[ self::$f_thanks_field_name ]; ?>"/></label>
+        <p><label><?php echo __( 'Thanks Page URL', 'contact-form-7-freebie' ) ?><br><input type="text"
+                                                                                            name="<?php echo self::$f_thanks_field_name; ?>"
+                                                                                            size="60"
+                                                                                            value="<?php echo $option[ self::$f_thanks_field_name ]; ?>"></label>
         </p>
 
         <p><label><input type="checkbox" name="<?php echo self::$f_multiple_newline; ?>" size="60"
-                         value="1"<?php echo $option[ self::$f_multiple_newline ] == '1' ? 'checked="checked"' : ''; ?>/>
+                         value="1"<?php echo $option[ self::$f_multiple_newline ] == '1' ? 'checked="checked"' : ''; ?>>
 				<?php echo __( 'Make the comma of multiple values a newline in mail body', 'contact-form-7-freebie' ) ?>
             </label></p>
 
         <p><label>
                 <input type="checkbox" name="<?php echo self::$f_field_error_field_name; ?>" size="60"
-                       value="1"<?php echo $option[ self::$f_field_error_field_name ] == '1' ? 'checked="checked"' : ''; ?>/>
+                       value="1"<?php echo $option[ self::$f_field_error_field_name ] == '1' ? 'checked="checked"' : ''; ?>>
 				<?php echo __( 'Hide field error message', 'contact-form-7-freebie' ) ?>
             </label></p>
 		<?php
@@ -254,6 +323,7 @@ EOT;
 	public static function get_option( $id = null ) {
 		// option default value
 		$default = array(
+			self::$f_no_wpautop_field_name  => '',
 			self::$f_email_field_name       => '',
 			self::$f_confirm_field_name     => '',
 			self::$f_thanks_field_name      => '',
@@ -267,6 +337,8 @@ EOT;
 
 		if ( isset( $options[ $id ] ) ) {
 			$option = wp_parse_args( $options[ $id ], $default );
+		} else {
+			$option = $default;
 		}
 
 		return $option;
@@ -283,6 +355,11 @@ EOT;
 		return $instance->options;
 	}
 
+	/**
+	 * update plugin setting
+	 *
+	 * @param $option
+	 */
 	public static function update_option( $option ) {
 		global $wpdb;
 		$instance = self::get_instance();
@@ -298,6 +375,16 @@ EOT;
 			$options[ $k ] = $v;
 		}
 
+		/*
+		 * for set WPCF7_AUTOP false all settings
+		 * one autop setting will be common setting
+		 */
+		$e     = new WP_Error();
+		$autop = array_values( $option )[0][ self::$f_no_wpautop_field_name ];
+		foreach ( $options as $key => $renew_potion ) {
+			$options[ $key ][ self::$f_no_wpautop_field_name ] = $autop;
+		}
+
 		$instance->options = $options;
 		update_option( self::$option_name, $instance->options );
 	}
@@ -306,21 +393,22 @@ EOT;
 	/**
 	 * activation hook
 	 */
-	function register_activation_hook() {
+	public static function register_activation_hook() {
 		if ( ! is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-			$e = new WP_Error( 'error', __( 'Please activate Contact Form 7 plugin in advance', 'contact-form-7-freebie' ) );
-			set_transient( $this->textdomain . '-admin-errors', $e, 5 );
+			$e = new WP_Error( 'error', 'ERROR:000 ' . __( 'Please activate Contact Form 7 plugin in advance', 'contact-form-7-freebie' ) );
+			set_transient( self::$textdomain . '-admin-errors', $e, 5 );
 		}
 	}
 
-	function register_deactivation_hook() {
+	public static function register_uninstall_hook() {
+		delete_option( self::$option_name );
 	}
 
 	/**
 	 * show error message
 	 */
-	function admin_notices() {
-		if ( $e = get_transient( $this->textdomain . '-admin-errors' ) ) {
+	public function admin_notices() {
+		if ( $e = get_transient( self::$textdomain . '-admin-errors' ) ) {
 			$messages = $e->get_error_messages();
 			echo '<div class="error"';
 			foreach ( $messages as $message ) {
@@ -333,10 +421,14 @@ EOT;
 	/**
 	 * deactivate plugin on error
 	 */
-	function admin_init() {
-		if ( get_transient( $this->textdomain . '-admin-errors' ) ) {
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-			unset( $_GET['activate'] );
+	public function admin_init() {
+		$e = get_transient( self::$textdomain . '-admin-errors' );
+		if ( $e ) {
+			$message = implode( $e->get_error_messages() );
+			if ( strpos( $message, 'ERROR:000' ) !== false ) {
+				deactivate_plugins( plugin_basename( __FILE__ ) );
+				unset( $_GET['activate'] );
+			}
 		}
 	}
 }
