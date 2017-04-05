@@ -189,7 +189,6 @@ EOT;
 	}
 
 	public function wp_head() {
-		var_dump( $this );
 		echo "<style>.wpcf7-mail-sent-ok{display: none !important;}</style>";
 	}
 
