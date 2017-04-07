@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Contact Form 7 Freebie
-Plugin URI: http://munyagu.com/
+Plugin URI: http://munyagu.com/contact-form-7-freebie/
 Description: Contact Form 7のちょっとした追加機能
 Version: 1.0.0
 Textdomain: contact-form-7-freebie
