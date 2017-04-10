@@ -14,7 +14,8 @@ License: GPL2
 /* set WPCF7_AUTOP common setting */
 $options = ContactForm7Freebie::get_options();
 if ( $options !== null && is_array( $options ) ) {
-	$autop = array_values( $options )[0][ ContactForm7Freebie::$f_no_wpautop_field_name ];
+	$potion_values = array_values( $options );
+	$autop         = $potion_values[0][ ContactForm7Freebie::$f_no_wpautop_field_name ];
 	if ( $autop === '1' ) {
 		if ( ! defined( 'WPCF7_AUTOP' ) ) {
 			define( 'WPCF7_AUTOP', false );
@@ -90,8 +91,6 @@ class ContactForm7Freebie {
 		/* Make the comma of multiple values a newline in mail  */
 		add_filter( 'wpcf7_mail_tag_replaced', array( $this, 'wpcf7_mail_tag_replaced' ), 10, 3 );
 
-		add_action( 'wp_head', array( $this, 'wp_head' ) );
-
 		add_filter( 'wpcf7_ajax_json_echo', array( $this, 'wpcf7_ajax_json_echo' ), 10, 2 );
 	}
 
@@ -127,7 +126,6 @@ class ContactForm7Freebie {
 			return $items;
 		}
 
-		file_put_contents( dirname( __FILE__ ) . '/log.txt', 'items1:' . print_r( $items, true ) . "\n\n", FILE_APPEND );
 		if ( isset( $items['onSentOk'] ) ) {
 			foreach ( $items['onSentOk'] as $sent ) {
 				if ( strpos( $sent, 'location=' ) !== false ) {
@@ -146,7 +144,6 @@ class ContactForm7Freebie {
 		if ( isset( $option[ self::$f_thanks_field_name ] ) && $option[ self::$f_thanks_field_name ] != '' ) {
 			$items['onSentOk'][] = "location='{$option[self::$f_thanks_field_name]}'";
 		}
-		file_put_contents( dirname( __FILE__ ) . '/log.txt', 'items2:' . print_r( $items, true ) . "\n\n", FILE_APPEND );
 
 		return $items;
 	}
@@ -186,10 +183,6 @@ EOT;
 			echo $this->redirect_script;
 		}
 
-	}
-
-	public function wp_head() {
-		echo "<style>.wpcf7-mail-sent-ok{display: none !important;}</style>";
 	}
 
 	/**
@@ -270,7 +263,9 @@ EOT;
 		?>
         <p><label><input type="checkbox" name="<?php echo self::$f_no_wpautop_field_name ?>" size="60"
                          value="1"<?php echo $option[ self::$f_no_wpautop_field_name ] == '1' ? 'checked="checked"' : ''; ?>><?php echo __( 'Do not insert P tag when displaying form', 'contact-form-7-freebie' ) ?>
-            </label><br><small>※<?php echo __( 'If this function does not become effective, please invalidate Contact Form 7 Freebie plug-in and activate it.', 'contact-form-7-freebie' ) ?></small>
+            </label><br>
+            <small>
+                ※<?php echo __( 'If this function does not become effective, please invalidate Contact Form 7 Freebie plug-in and activate it.', 'contact-form-7-freebie' ) ?></small>
         </p>
 
         <p><label><?php echo __( 'Email Address Field Name', 'contact-form-7-freebie' ) ?><br><input type="text"
@@ -378,8 +373,9 @@ EOT;
 		 * for set WPCF7_AUTOP false all settings
 		 * one autop setting will be common setting
 		 */
-		$e     = new WP_Error();
-		$autop = array_values( $option )[0][ self::$f_no_wpautop_field_name ];
+		$e             = new WP_Error();
+		$potion_values = array_values( $option );
+		$autop         = $potion_values[0][ self::$f_no_wpautop_field_name ];
 		foreach ( $options as $key => $renew_potion ) {
 			$options[ $key ][ self::$f_no_wpautop_field_name ] = $autop;
 		}
