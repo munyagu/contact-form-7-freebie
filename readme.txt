@@ -1,4 +1,4 @@
-=== contact-form-7-freebie ===
+=== Contact Form 7 Freebie ===
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: url
