@@ -1,7 +1,7 @@
 === Contact Form 7 Freebie ===
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
-Tags: url
+Tags: form
 Requires at least: 4.6
 Tested up to: 4.7.3
 Stable tag: 1.0.0
@@ -26,6 +26,9 @@ Additional functions for Contact Form 7.
 
 1. Install and activate the plugin through the 'Plugins' menu in WordPress
   This plugin can not be activated unless Contact Form 7 plugin is enabled.
+
+== Screenshots ==
+1.setting screen.
 
 == Changelog ==
 
