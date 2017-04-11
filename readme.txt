@@ -21,7 +21,6 @@ Additional functions for Contact Form 7.
 ・Make the comma of multiple values a newline in mail.
 ・Hide error message for each field.
 
-This plugin tested with Contact form 7 version 4.7.
 
 == Installation ==
 
