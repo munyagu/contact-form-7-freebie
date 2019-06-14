@@ -1,9 +1,9 @@
-=== Contact Form 7 Freebie ===
+﻿=== Contact Form 7 Freebie ===
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: form
 Requires at least: 4.6
-Tested up to: 4.9
+Tested up to: 5.2
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,7 +18,7 @@ Additional functions for Contact Form 7.
 ・Disable 'autop’ filter to the form content.
   https://contactform7.com/controlling-behavior-by-setting-constants/
 ・Thanks page redirection.
-・Make the comma of multiple values a newline in mail.
+・Make the comma of multiple values a newline in mail body.
 ・Hide error message for each field.
 
 
