@@ -7,7 +7,7 @@ class ContactForm7Freebie {
 
 	private $name = '';
 	private static $textdomain = 'contact-form-7-freebie';
-	private $version = '1.1.0';
+	private $version = '1.1.1';
 
 	private static $option_name = 'cf7-freebie';
 	public $options = null;

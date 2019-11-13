@@ -38,36 +38,38 @@ class ContactForm7ReCaptcha {
 
 	public static function wp_head() {
 
-		$service = WPCF7_RECAPTCHA::get_instance();
-		if ( $service->is_active() ) {
+
+		if ( self::enable() ) {
 			ob_start( null, 0, PHP_OUTPUT_HANDLER_FLUSHABLE || PHP_OUTPUT_HANDLER_REMOVABLE || PHP_OUTPUT_HANDLER_CLEANABLE );
 		}
 
 	}
+
 
 	/**
 	 * Check content contains Contact Form 7 form.
 	 */
 	public static function wp_footer() {
 
-		$service = WPCF7_RECAPTCHA::get_instance();
+		if ( self::enable() ) {
 
-		if ( $service->is_active() ) {
-			$recaptcha = get_option( ContactForm7Freebie::$f_field_remove_recaptcha_badge );
+			$content = ob_get_contents();
+			$result  = preg_match( self::pattern, $content );
 
-			if ( '1' === $recaptcha ) {
-
-				$content = ob_get_contents();
-				$result  = preg_match( self::pattern, $content );
-
-				if ( 1 !== $result ) {
-					wp_dequeue_script( 'google-recaptcha' );
-					remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 );
-
-				}
-				ob_flush();
+			if ( 1 !== $result ) {
+				wp_dequeue_script( 'google-recaptcha' );
+				remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 );
 			}
+			ob_flush();
 		}
+	}
+
+	public static function enable() {
+
+		$service   = WPCF7_RECAPTCHA::get_instance();
+		$recaptcha = get_option( ContactForm7Freebie::$f_field_remove_recaptcha_badge );
+
+		return $service->is_active() && '1' === $recaptcha;
 	}
 
 }

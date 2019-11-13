@@ -4,7 +4,7 @@
 Plugin Name: Contact Form 7 Freebie
 Plugin URI: http://munyagu.com/contact-form-7-freebie/
 Description: Add a little functionality to the Contact Form 7
-Version: 1.1.0
+Version: 1.1.1
 Textdomain: contact-form-7-freebie
 Author: munyagu
 Author URI: http://munyagu.com/
