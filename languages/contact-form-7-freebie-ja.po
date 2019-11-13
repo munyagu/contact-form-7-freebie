@@ -4,32 +4,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hello World Project\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2017-03-29 13:55+0900\n"
-"PO-Revision-Date: 2017-03-29 13:57+0900\n"
+"POT-Creation-Date: 2019-11-13 15:10+0900\n"
+"PO-Revision-Date: 2019-11-13 15:11+0900\n"
 "Last-Translator: masayuki abe <YOUR-EMAIL@abe.com>\n"
 "Language-Team: abechiyo <YOUR-EMAIL@kddi-web.com>\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: contact-form-7-freebie.php:230
+#: inc/ContactForm7Freebie.php:202
 msgid "The confirmation email address does not match."
 msgstr "メールアドレスが一致しません。"
 
-#: contact-form-7-freebie.php:259
+#: inc/ContactForm7Freebie.php:231
 msgid "Freebie"
 msgstr "おまけ"
 
-#: contact-form-7-freebie.php:273
+#: inc/ContactForm7Freebie.php:249
+msgid "Form Display Settings"
+msgstr "フォーム表示設定"
+
+#: inc/ContactForm7Freebie.php:251
 msgid "Do not insert P tag when displaying form"
 msgstr "フォーム表示時にPタグを挿入しない"
 
-#: contact-form-7-freebie.php:274
+#: inc/ContactForm7Freebie.php:254
 msgid ""
 "If this function does not become effective, please invalidate Contact Form 7 "
 "Freebie plug-in and activate it."
@@ -37,26 +41,66 @@ msgstr ""
 "この機能が有効にならない場合は、Contact Form 7 Freebieプラグインを一旦無効に"
 "し、再度有効化してください。"
 
-#: contact-form-7-freebie.php:277
-msgid "Email Address Field Name"
-msgstr "メールアドレスのフィールド名"
-
-#: contact-form-7-freebie.php:282
-msgid "Confirm Field Name"
-msgstr "確認用メールアドレスのフィールド名"
-
-#: contact-form-7-freebie.php:287
-msgid "Thanks Page URL"
-msgstr "サンキューページのURL"
-
-#: contact-form-7-freebie.php:295
-msgid "Make the comma of multiple values a newline in mail body"
-msgstr "複数値をメール本文でカンマ区切りではなく改行で区切る"
-
-#: contact-form-7-freebie.php:301
+#: inc/ContactForm7Freebie.php:259
 msgid "Hide field error message"
 msgstr "フィールド毎のエラーメッセージを非表示にする"
 
-#: contact-form-7-freebie.php:398
+#: inc/ContactForm7Freebie.php:262
+msgid "Double-check the mail address"
+msgstr "メールアドレス再入力チェック"
+
+#: inc/ContactForm7Freebie.php:263
+msgid "Email Address Field Name"
+msgstr "メールアドレスのフィールド名"
+
+#: inc/ContactForm7Freebie.php:268
+msgid "Confirm Field Name"
+msgstr "確認用メールアドレスのフィールド名"
+
+#: inc/ContactForm7Freebie.php:274
+msgid "Redirect to Thank You Page"
+msgstr "サンクスページへのリダイレクト"
+
+#: inc/ContactForm7Freebie.php:275
+msgid "Thanks Page URL"
+msgstr "サンキューページのURL"
+
+#: inc/ContactForm7Freebie.php:281
+msgid "Message Body"
+msgstr "メール本文"
+
+#: inc/ContactForm7Freebie.php:284
+msgid "Make the comma of multiple values a newline in mail body"
+msgstr "複数値をメール本文でカンマ区切りではなく改行で区切る"
+
+#: inc/ContactForm7Freebie.php:396
 msgid "Please activate Contact Form 7 plugin in advance"
 msgstr "先にContact Form 7プラグインを有効化してください。"
+
+#: inc/ContactForm7Freebie.php:445
+msgid "Contact Form 7 Freebie Options"
+msgstr "Contact Form 7 Freebie オプション"
+
+#: inc/ContactForm7Freebie.php:446 inc/ContactForm7Freebie.php:463
+msgid "Contact Form 7 Freebie"
+msgstr "Contact Form 7 Freebie"
+
+#: inc/ContactForm7Freebie.php:463
+msgid "Global Options"
+msgstr "グローバル設定"
+
+#: inc/ContactForm7Freebie.php:465
+msgid "Google reCaptcha V3 Badge Setting"
+msgstr "Google reCaptcha V3 バッジ表示設定"
+
+#: inc/ContactForm7Freebie.php:469
+msgid "Hide reCaptcha badge except in forms"
+msgstr "Hide reCaptcha のバッジをフォームとは関係ないページで非表示にする"
+
+#: inc/ContactForm7Freebie.php:472
+msgid "reCaptcha not enabled"
+msgstr "reCaptcha が有効になっていません"
+
+#: inc/ContactForm7Freebie.php:475
+msgid "Save"
+msgstr "保存"

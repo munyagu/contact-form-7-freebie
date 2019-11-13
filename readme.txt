@@ -1,9 +1,9 @@
-﻿=== Contact Form 7 Freebie ===
+=== Contact Form 7 Freebie ===
 Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: form
 Requires at least: 4.6
-Tested up to: 5.2
+Tested up to: 5.3
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,10 @@ Additional functions for Contact Form 7.
 1.setting screen.
 
 == Changelog ==
+
+= 1.1.0 =
+add Hide reCaptcha badge except in forms.
+
 
 = 1.0.0 =
 First release.
