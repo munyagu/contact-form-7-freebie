@@ -20,6 +20,7 @@ Additional functions for Contact Form 7.
 ・Thanks page redirection.
 ・Make the comma of multiple values a newline in mail body.
 ・Hide error message for each field.
+・Hide reCaptcha badge except in forms.
 
 
 == Installation ==
