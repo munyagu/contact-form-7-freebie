@@ -11,36 +11,11 @@ class ContactForm7ReCaptcha {
 
 	}
 
-
-	/*
-	public static function reCaptchaInit(){
-
-		global $post;
-
-		$show = false;
-
-		if( is_singular( $post->post_type ) ) {
-
-			$result = preg_match( '/\[contact\-form\-7 /', $post->post_content );
-
-			if( 1 === $result ) {
-				$show = true;
-			}
-		}
-
-		if( false === $show ) {
-			wp_dequeue_script( 'google-recaptcha' );
-			remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 );
-		}
-
-	}
-	*/
-
 	public static function wp_head() {
 
 
 		if ( self::enable() ) {
-			ob_start( null, 0, PHP_OUTPUT_HANDLER_FLUSHABLE || PHP_OUTPUT_HANDLER_REMOVABLE || PHP_OUTPUT_HANDLER_CLEANABLE );
+			ob_start();
 		}
 
 	}
@@ -53,6 +28,7 @@ class ContactForm7ReCaptcha {
 
 		if ( self::enable() ) {
 
+			//ob_start();
 			$content = ob_get_contents();
 			$result  = preg_match( self::pattern, $content );
 
@@ -60,6 +36,7 @@ class ContactForm7ReCaptcha {
 				wp_dequeue_script( 'google-recaptcha' );
 				remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 );
 			}
+
 			ob_flush();
 		}
 	}

@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hello World Project\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2019-11-13 15:10+0900\n"
-"PO-Revision-Date: 2019-11-13 15:11+0900\n"
+"POT-Creation-Date: 2020-02-26 13:25+0900\n"
+"PO-Revision-Date: 2020-02-26 13:26+0900\n"
 "Last-Translator: masayuki abe <YOUR-EMAIL@abe.com>\n"
 "Language-Team: abechiyo <YOUR-EMAIL@kddi-web.com>\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -23,7 +23,7 @@ msgstr "メールアドレスが一致しません。"
 
 #: inc/ContactForm7Freebie.php:231
 msgid "Freebie"
-msgstr "おまけ"
+msgstr "Freebie"
 
 #: inc/ContactForm7Freebie.php:249
 msgid "Form Display Settings"
@@ -95,7 +95,7 @@ msgstr "Google reCaptcha V3 バッジ表示設定"
 
 #: inc/ContactForm7Freebie.php:469
 msgid "Hide reCaptcha badge except in forms"
-msgstr "Hide reCaptcha のバッジをフォームとは関係ないページで非表示にする"
+msgstr "reCaptcha のバッジをフォームとは関係ないページで非表示にする"
 
 #: inc/ContactForm7Freebie.php:472
 msgid "reCaptcha not enabled"
