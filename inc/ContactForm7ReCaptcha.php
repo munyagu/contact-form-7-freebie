@@ -33,8 +33,10 @@ class ContactForm7ReCaptcha {
 			$result  = preg_match( self::pattern, $content );
 
 			if ( 1 !== $result ) {
+				wp_dequeue_script( 'wpcf7-recaptcha' );
 				wp_dequeue_script( 'google-recaptcha' );
-				remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 );
+
+				remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 ); // before Contact Form 7 5.1.9
 			}
 
 			ob_flush();

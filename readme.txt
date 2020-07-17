@@ -3,8 +3,8 @@ Contributors: munyagu
 Donate link: http://munyagu.com/donate/
 Tags: form
 Requires at least: 4.6
-Tested up to: 5.4
-Stable tag: 1.1.2
+Tested up to: 5.5
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,10 @@ Additional functions for Contact Form 7.
 1.setting screen.
 
 == Changelog ==
+
+= 1.1.3 =
+update support WordPress 5.5
+update support Contact Form 7 5.2
 
 = 1.1.2 =
 fix ob_flush error.
