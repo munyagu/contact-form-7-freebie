@@ -45,10 +45,15 @@ class ContactForm7ReCaptcha {
 
 	public static function enable() {
 
-		$service   = WPCF7_RECAPTCHA::get_instance();
-		$recaptcha = get_option( ContactForm7Freebie::$f_field_remove_recaptcha_badge );
+		if( class_exists( 'WPCF7_RECAPTCHA' ) ) {
+			$service   = WPCF7_RECAPTCHA::get_instance();
+			$recaptcha = get_option( ContactForm7Freebie::$f_field_remove_recaptcha_badge );
 
-		return $service->is_active() && '1' === $recaptcha;
+			return $service->is_active() && '1' === $recaptcha;
+		} else {
+			return false;
+		}
+
 	}
 
 }

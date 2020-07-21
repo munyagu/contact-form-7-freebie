@@ -4,7 +4,7 @@ Donate link: http://munyagu.com/donate/
 Tags: form
 Requires at least: 4.6
 Tested up to: 5.5
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ Additional functions for Contact Form 7.
 1.setting screen.
 
 == Changelog ==
+
+= 1.1.4 =
+add check for the existence of the WPCF7_RECAPTCHA class in contact form 7.
 
 = 1.1.3 =
 update support WordPress 5.5

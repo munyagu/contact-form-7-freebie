@@ -454,9 +454,18 @@ EOT;
 	}
 
 	public function show_option_page() {
-		$service           = WPCF7_RECAPTCHA::get_instance();
-		$enabled_recaptcha = $service->is_active() ? '' : ' disabled';
-		$recaptcha = get_option( self::$f_field_remove_recaptcha_badge );
+
+	    $service = null;
+	    $enabled_recaptcha = ' disabled';
+	    $recaptcha = 0;
+
+	    if( class_exists( 'WPCF7_RECAPTCHA' ) ) {
+	        $service           = WPCF7_RECAPTCHA::get_instance();
+		    $enabled_recaptcha = $service->is_active() ? '' : ' disabled';
+		    $recaptcha = get_option( self::$f_field_remove_recaptcha_badge );
+	    }
+
+
 		?>
         <div class="wrap">
         <h1>
@@ -469,7 +478,7 @@ EOT;
 					<?php _e( 'Hide reCaptcha badge except in forms', 'contact-form-7-freebie' ) ?>
                     <img class="badge" src="<?php echo plugin_dir_url( __DIR__ ) . '/assets/img/google_recaptcha_v3.png'; ?>">
                 </label>
-	            <?php echo $service->is_active() ? '' : '<br><span class="wp-ui-text-notification">※' . __( 'reCaptcha not enabled', 'contact-form-7-freebie' ) . '</span>'; ?>
+	            <?php echo null !== $service && $service->is_active() ? '' : '<br><span class="wp-ui-text-notification">※' . __( 'reCaptcha not enabled', 'contact-form-7-freebie' ) . '</span>'; ?>
             </p>
              <input type="submit" class="button button-primary button-large"
                    value="<?php echo __( 'Save', 'contact-form-7-freebie' ) ?>"/>
