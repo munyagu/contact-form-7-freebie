@@ -12,8 +12,9 @@ class ContactForm7ReCaptcha {
 	}
 
 	public static function wp_head() {
-
-
+		?>
+<style>.grecaptcha-hide{visibility: hidden !important;}</style>
+		<?php
 		if ( self::enable() ) {
 			ob_start();
 		}
@@ -33,10 +34,24 @@ class ContactForm7ReCaptcha {
 			$result  = preg_match( self::pattern, $content );
 
 			if ( 1 !== $result ) {
-				wp_dequeue_script( 'wpcf7-recaptcha' );
-				wp_dequeue_script( 'google-recaptcha' );
-
-				remove_action( 'wp_footer', 'wpcf7_recaptcha_onload_script', 40, 0 ); // before Contact Form 7 5.1.9
+			    $script = <<<EOT
+<script>
+        var target = document.querySelector('body');
+        var observer = new MutationObserver(function(mutations){
+            mutations.forEach(function(mutation){
+                if( mutation.addedNodes.length > 0 ) {
+                    var logo = mutation.addedNodes[0].firstChild;
+                    if( null !== logo && 'grecaptcha-badge' === logo.className ) {
+                        logo.className = 'grecaptcha-badge grecaptcha-hide';
+                        observer.disconnect();
+                    }
+                }
+            });
+        });
+        observer.observe(target, { childList: true });
+</script>
+EOT;
+                echo trim( $script );
 			}
 
 			ob_flush();
