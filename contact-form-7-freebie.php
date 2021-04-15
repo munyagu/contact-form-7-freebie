@@ -1,14 +1,15 @@
 <?php
 
 /*
-Plugin Name: Contact Form 7 Freebie
+Plugin Name: Freebie for Contact Form 7
 Plugin URI: http://munyagu.com/contact-form-7-freebie/
 Description: Add a little functionality to the Contact Form 7
-Version: 1.1.5
+Version: 1.1.6
 Textdomain: contact-form-7-freebie
 Author: munyagu
 Author URI: http://munyagu.com/
 License: GPL2
+Text Domain: contact-form-7-freebie
 */
 
 include 'inc/ContactForm7Freebie.php';

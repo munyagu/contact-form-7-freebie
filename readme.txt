@@ -1,13 +1,12 @@
-=== Contact Form 7 Freebie ===
+=== Freebie for Contact Form 7 ===
 Contributors: munyagu
-Donate link: http://munyagu.com/donate/
+Donate link: https://munyagu.com/donate/
 Tags: form
-Requires at least: 4.6
-Tested up to: 5.6
-Stable tag: 1.1.5
+Requires at least: 4.9
+Tested up to: 5.7
+Stable tag: 1.1.6
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
+License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
 == Description ==
@@ -20,7 +19,7 @@ Additional functions for Contact Form 7.
 ・Thanks page redirection.
 ・Make the comma of multiple values a newline in mail body.
 ・Hide error message for each field.
-・Hide reCaptcha badge except in forms.
+・Hide Google reCaptcha V3 badge except in forms.
 
 
 == Installation ==
@@ -33,24 +32,27 @@ Additional functions for Contact Form 7.
 
 == Changelog ==
 
+= 1.1.6 =
+Change plugin name.
+
 = 1.1.5 =
 tweak Changed the way to hide the Google reCaptcha logo.
 
 = 1.1.4 =
-add check for the existence of the WPCF7_RECAPTCHA class in contact form 7.
+Add check for the existence of the WPCF7_RECAPTCHA class in contact form 7.
 
 = 1.1.3 =
-update support WordPress 5.5
-update support Contact Form 7 5.2
+Update support WordPress 5.5
+Update support Contact Form 7 5.2
 
 = 1.1.2 =
-fix ob_flush error.
+Fix ob_flush error.
 
 = 1.1.1 =
-fix http cache condition
+Fix http cache condition
 
 = 1.1.0 =
-add Hide reCaptcha badge except in forms.
+Add Hide reCaptcha badge except in forms.
 
 
 = 1.0.0 =

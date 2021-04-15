@@ -248,15 +248,15 @@ EOT;
 		?>
         <h4><?php _e( 'Form Display Settings', 'contact-form-7-freebie' ); ?></h4>
         <p><label><input type="checkbox" name="<?php echo self::$f_no_wpautop_field_name ?>" size="60"
-                         value="1"<?php echo $option[ self::$f_no_wpautop_field_name ] == '1' ? 'checked="checked"' : ''; ?>><?php _e( 'Do not insert P tag when displaying form', 'contact-form-7-freebie' ) ?>
+                         value="1"<?php echo $option[ self::$f_no_wpautop_field_name ] == '1' ? 'checked="checked"' : ''; ?>><?php _e( 'Do not insert P tag when displaying form.', 'contact-form-7-freebie' ) ?>
             </label><br>
             <small>
-                ※<?php _e( 'If this function does not become effective, please invalidate Contact Form 7 Freebie plug-in and activate it.', 'contact-form-7-freebie' ) ?></small>
+                ※<?php _e( 'If this function does not become effective, please invalidate Freebie for Contact Form 7 plug-in and activate it.', 'contact-form-7-freebie' ) ?></small>
         </p>
         <p><label>
                 <input type="checkbox" name="<?php echo self::$f_field_error_field_name; ?>" size="60"
                        value="1"<?php echo $option[ self::$f_field_error_field_name ] == '1' ? 'checked="checked"' : ''; ?>>
-				<?php _e( 'Hide field error message', 'contact-form-7-freebie' ) ?>
+				<?php _e( 'Hide field error message.', 'contact-form-7-freebie' ) ?>
             </label></p>
         <hr>
         <h4><?php _e( 'Double-check the mail address', 'contact-form-7-freebie' ); ?></h4>
@@ -281,7 +281,7 @@ EOT;
         <h4><?php _e( 'Message Body', 'contact-form-7-freebie' ); ?></h4>
         <p><label><input type="checkbox" name="<?php echo self::$f_multiple_newline; ?>" size="60"
                          value="1"<?php echo $option[ self::$f_multiple_newline ] == '1' ? 'checked="checked"' : ''; ?>>
-				<?php _e( 'Make the comma of multiple values a newline in mail body', 'contact-form-7-freebie' ) ?>
+				<?php _e( 'Make the comma of multiple values a newline in mail body.', 'contact-form-7-freebie' ) ?>
             </label></p>
 
         <hr>
@@ -393,7 +393,7 @@ EOT;
 	 */
 	public static function register_activation_hook() {
 		if ( ! is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
-			$e = new WP_Error( 'error', 'ERROR:000 ' . __( 'Please activate Contact Form 7 plugin in advance', 'contact-form-7-freebie' ) );
+			$e = new WP_Error( 'error', 'ERROR:000 ' . __( 'Please activate Contact Form 7 plugin in advance.', 'contact-form-7-freebie' ) );
 			set_transient( self::$textdomain . '-admin-errors', $e, 5 );
 		}
 	}
@@ -442,8 +442,8 @@ EOT;
 
 	public function add_option_menu() {
 
-		$hook = add_options_page( __( 'Contact Form 7 Freebie Options', 'contact-form-7-freebie' ),
-			__( 'Contact Form 7 Freebie', 'contact-form-7-freebie' ),
+		$hook = add_options_page( __( 'Freebie for Contact Form 7 Options', 'contact-form-7-freebie' ),
+			__( 'Freebie for Contact Form 7', 'contact-form-7-freebie' ),
 			apply_filters( 'cf7freebie_menu_authority', self::authority_secure ),
 			'cf7freebie_menu',
 			array( $this, 'show_option_page' )
@@ -469,16 +469,16 @@ EOT;
 		?>
         <div class="wrap">
         <h1>
-            <?php _e( 'Contact Form 7 Freebie', 'contact-form-7-freebie' );?>&nbsp;<?php _e( 'Global Options', 'contact-form-7-freebie' ); ?></h1>
+            <?php _e( 'Freebie for Contact Form 7', 'contact-form-7-freebie' );?>&nbsp;<?php _e( 'Global Options', 'contact-form-7-freebie' ); ?></h1>
         <form method="post" class="global">
             <h2><?php _e( 'Google reCaptcha V3 Badge Setting', 'contact-form-7-freebie' );?></h2>
 	        <?php wp_nonce_field( self::$option_name, 'cf7freebie_secure' ) ?>
             <p><label class="recaptcha"><input type="checkbox" name="<?php echo self::$f_field_remove_recaptcha_badge; ?>" size="60"
                              value="1"<?php echo '1' === $recaptcha ? 'checked="checked"' : ''; ?><?php echo $enabled_recaptcha; ?>>
-					<?php _e( 'Hide reCaptcha badge except in forms', 'contact-form-7-freebie' ) ?>
+					<?php _e( 'Hide reCaptcha badge except in forms.', 'contact-form-7-freebie' ) ?>
                     <img class="badge" src="<?php echo plugin_dir_url( __DIR__ ) . '/assets/img/google_recaptcha_v3.png'; ?>">
                 </label>
-	            <?php echo null !== $service && $service->is_active() ? '' : '<br><span class="wp-ui-text-notification">※' . __( 'reCaptcha not enabled', 'contact-form-7-freebie' ) . '</span>'; ?>
+	            <?php echo null !== $service && $service->is_active() ? '' : '<br><span class="wp-ui-text-notification">※' . __( 'reCaptcha not enabled.', 'contact-form-7-freebie' ) . '</span>'; ?>
             </p>
              <input type="submit" class="button button-primary button-large"
                    value="<?php echo __( 'Save', 'contact-form-7-freebie' ) ?>"/>
